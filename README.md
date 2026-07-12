@@ -186,7 +186,7 @@ summary::-webkit-details-marker{display:none;}
   padding:12px 16px 16px;
   border-top:1px solid var(--line);
 }
-.help,.inline-note,.footer-note,.result-reason,.science-copy,.fact-copy,.office-note{
+.help,.inline-note,.footer-note,.result-reason,.science-copy,.office-note,.cta-copy,.legal{
   color:var(--muted);
 }
 .help{margin:0 0 12px;}
@@ -200,7 +200,7 @@ summary::-webkit-details-marker{display:none;}
   flex-wrap:wrap;
   margin-top:14px;
 }
-button{
+button, .link-btn{
   appearance:none;
   border:none;
   border-radius:999px;
@@ -209,19 +209,30 @@ button{
   font-weight:700;
   cursor:pointer;
   transition:transform .15s ease,opacity .2s ease,background .2s ease;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
 }
-button:hover{transform:translateY(-1px);}
+button:hover, .link-btn:hover{transform:translateY(-1px);}
 .btn-primary{
   background:var(--forest-900);
   color:var(--white);
 }
 .btn-primary:hover{background:var(--forest-700);}
-.btn-secondary{
+.btn-secondary, .link-btn.secondary{
   background:var(--white);
   color:var(--forest-900);
   border:1px solid var(--forest-700);
 }
-.btn-secondary:hover{background:var(--sage-100);}
+.btn-secondary:hover, .link-btn.secondary:hover{background:var(--sage-100);}
+.link-btn.primary{
+  background:var(--forest-900);
+  color:var(--white);
+}
+.link-btn.primary:hover{
+  background:var(--forest-700);
+}
 .result{
   display:none;
   margin-top:20px;
@@ -309,31 +320,9 @@ button:hover{transform:translateY(-1px);}
   font-size:.96rem;
   border:1px solid var(--sage-300);
 }
-.meta-grid{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;
-  margin-top:14px;
-}
-.meta-card{
-  background:var(--soft);
-  border:1px solid var(--line);
-  border-radius:12px;
-  padding:12px 14px;
-}
-.meta-card h4{
-  margin:0 0 6px;
-  font-size:.88rem;
-  color:var(--forest-900);
-}
-.meta-card p{
-  margin:0;
-  font-size:.93rem;
-  color:var(--muted);
-}
 .info-grid{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-columns:1fr;
   gap:12px;
   margin-top:14px;
 }
@@ -348,21 +337,37 @@ button:hover{transform:translateY(-1px);}
   font-size:.95rem;
   color:var(--forest-900);
 }
-.fact-pill{
-  display:inline-block;
-  font-size:.78rem;
-  font-weight:700;
-  letter-spacing:.04em;
-  text-transform:uppercase;
-  padding:5px 9px;
-  border-radius:999px;
-  background:var(--sage-200);
-  color:var(--forest-900);
-  margin-bottom:8px;
+.cta-block{
+  margin-top:18px;
+  padding:16px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,#fafcfb 0%, var(--soft) 100%);
+}
+.cta-copy{
+  margin:0 0 12px;
+  font-size:.96rem;
+}
+.cta-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
 }
 .footer-note{
   margin-top:12px;
   font-size:.86rem;
+}
+.legal{
+  margin-top:24px;
+  font-size:.82rem;
+  text-align:center;
+}
+.legal a{
+  color:var(--muted);
+  text-decoration:none;
+}
+.legal a:hover{
+  text-decoration:underline;
 }
 .github-note{
   margin-top:18px;
@@ -385,7 +390,7 @@ code{
 }
 @media(max-width:760px){
   .wrap{padding:16px 14px 32px;}
-  .option-grid,.option-grid.three,.option-grid.goal-grid,.info-grid,.meta-grid{grid-template-columns:1fr;}
+  .option-grid,.option-grid.three,.option-grid.goal-grid,.cta-buttons{grid-template-columns:1fr;}
   .card{padding:18px;}
   .logo-slot{
     width:64px;
@@ -397,6 +402,9 @@ code{
     height:132px;
   }
   .circle-wrap{min-height:200px;}
+  .cta-buttons{
+    display:grid;
+  }
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
@@ -413,11 +421,11 @@ code{
   <section class="hero">
     <div class="brand-row">
       <div class="logo-slot">
-        <img src="./assets/lebensluft-logo.png" alt="Lebensluft" id="brandLogo" />
+        <img src="./assets/lebensluft-logo.png" alt="Lebensluft Logo" id="brandLogo" />
         <div class="logo-placeholder" id="logoPlaceholder">LOGO</div>
       </div>
       <div>
-        <div class="eyebrow">Finde deine Lebensluft</div>
+        <div class="eyebrow">Lebensluft · Breathwork in Frankfurt</div>
         <h1>Finde die Atemübung, die zu deinem Moment passt</h1>
       </div>
     </div>
@@ -499,31 +507,12 @@ code{
           <div class="office-note" id="officeNote"></div>
         </div>
 
-        <div class="meta-grid">
-          <div class="meta-card">
-            <h4>Dauer</h4>
-            <p id="durationText">1–2 Minuten</p>
-          </div>
-          <div class="meta-card">
-            <h4>Am besten</h4>
-            <p id="bestUseText">Im Sitzen und ruhig durch die Nase</p>
-          </div>
-          <div class="meta-card">
-            <h4>Intensität</h4>
-            <p id="intensityText">Sanft</p>
-          </div>
-        </div>
-
         <div class="script" id="scriptText"></div>
 
         <div class="info-grid">
           <div class="info-box">
             <h4>Warum das helfen kann</h4>
             <div class="science-copy" id="scienceText"></div>
-          </div>
-          <div class="info-box">
-            <div class="fact-pill">Breathwork-Fact des Tages</div>
-            <div class="fact-copy" id="factText"></div>
           </div>
         </div>
 
@@ -532,12 +521,25 @@ code{
           <button class="btn-secondary" id="gentleBtn">Sanftere Variante</button>
         </div>
 
+        <div class="cta-block">
+          <p class="cta-copy">Ich unterstütze dich, dein Team oder dein Unternehmen dabei, Breathwork fest im Alltag zu verankern. [web:2]</p>
+          <div class="cta-buttons">
+            <a class="link-btn primary" href="https://www.lebensluft.net/" target="_blank" rel="noopener noreferrer">Zu Lebensluft</a>
+            <a class="link-btn secondary" href="https://calendly.com/lebensluft-breathwork/erstgesprach-fur-unternehmen-clone" target="_blank" rel="noopener noreferrer">Für Privatpersonen: Unverbindliches Beratungsgespräch buchen</a>
+            <a class="link-btn secondary" href="https://calendly.com/lebensluft-breathwork/oprm-einordnung-clone" target="_blank" rel="noopener noreferrer">Für Unternehmen: Unverbindliches Beratungsgespräch buchen</a>
+          </div>
+        </div>
+
         <div class="footer-note">Atme immer weich und ohne Druck. Wenn etwas unangenehm wird, kehre zu deinem natürlichen Atem zurück.</div>
 
         <div class="github-note">
-          <strong>Logo in GitHub einfügen:</strong> Lege im selben Repository einen Ordner <code>assets</code> an und speichere dein Logo als <code>lebensluft-logo.png</code>. Der Pfad in dieser Datei ist bereits auf <code>./assets/lebensluft-logo.png</code> gesetzt. [web:56]
+          <strong>Logo in GitHub einfügen:</strong> Lege im selben Repository einen Ordner <code>assets</code> an und speichere dein Logo als <code>lebensluft-logo.png</code>. Der Pfad in dieser Datei ist bereits auf <code>./assets/lebensluft-logo.png</code> gesetzt. [web:60]
         </div>
       </div>
+    </div>
+
+    <div class="legal">
+      <a href="https://www.lebensluft.net/impressum" target="_blank" rel="noopener noreferrer">Impressum</a> [web:69]
     </div>
   </section>
 </div>
@@ -551,11 +553,7 @@ const patternText=document.getElementById("patternText");
 const scriptText=document.getElementById("scriptText");
 const phaseText=document.getElementById("phaseText");
 const scienceText=document.getElementById("scienceText");
-const factText=document.getElementById("factText");
 const officeNote=document.getElementById("officeNote");
-const durationText=document.getElementById("durationText");
-const bestUseText=document.getElementById("bestUseText");
-const intensityText=document.getElementById("intensityText");
 const circleText=document.getElementById("circleText");
 const breathCircle=document.getElementById("breathCircle");
 const findBtn=document.getElementById("findBtn");
@@ -575,14 +573,6 @@ brandLogo.addEventListener("error",()=>{
   brandLogo.style.display="none";
   logoPlaceholder.style.display="flex";
 });
-
-const facts=[
-  {type:"nose", text:"Die Nase wärmt, filtert und befeuchtet die Luft, bevor sie in die Lunge kommt."},
-  {type:"daily", text:"Die meisten Menschen atmen viele tausend Male am Tag, ohne bewusst darauf zu achten."},
-  {type:"diaphragm", text:"Dein Zwerchfell ist der wichtigste Atemmuskel und arbeitet bei jedem Atemzug mit."},
-  {type:"attention", text:"Schon ein kurzer Moment bewusster Atmung kann sich anders anfühlen als Atem auf Autopilot."},
-  {type:"rhythm", text:"Langsamer atmen heißt nicht stärker atmen – meistens ist sanft besser als viel."}
-];
 
 const scienceMap={
   slowExhale:[
@@ -609,57 +599,57 @@ const scienceMap={
 
 const techniques={
   stress:[
-    {name:"Verlängerte Ausatmung",style:"calm",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",duration:"1–2 Minuten",bestUse:"Im Sitzen, ruhig durch die Nase",intensity:"Sanft",text:"Diese Übung passt gut, wenn du Anspannung lösen und ruhiger werden möchtest.",reason:"Sie ist einfach, leise und alltagstauglich.",script:"Atme ruhig durch die Nase ein und etwas länger aus. Lass Schultern und Kiefer weich werden."},
-    {name:"5–7 Atmung",style:"deep-calm",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",duration:"1–3 Minuten",bestUse:"Wenn du etwas mehr Ruhezeit hast",intensity:"Sanft bis mittel",text:"Diese Variante bringt noch etwas mehr Ruhe in deinen Atemrhythmus.",reason:"Gut, wenn du eine klar spürbare Beruhigung suchst.",script:"Atme ruhig durch die Nase ein und weich länger aus. Ohne Druck."},
-    {name:"Physiologischer Seufzer",style:"sigh",category:"calm",subtle:false,officeSafe:false,science:"physioSigh",duration:"3–5 Wiederholungen",bestUse:"Bei akutem Druck, eher nicht im Büro",intensity:"Kurz und deutlich",text:"Diese Übung kann bei akutem Druck kurzfristig entlasten.",reason:"Hilfreich bei plötzlich hoher Anspannung.",script:"Einmal einatmen, einen kleinen zweiten Einatemzug ergänzen und dann langsam ausatmen."}
+    {name:"Verlängerte Ausatmung",style:"calm",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",text:"Diese Übung passt gut, wenn du Anspannung lösen und ruhiger werden möchtest.",reason:"Sie ist einfach, leise und alltagstauglich.",script:"Atme ruhig durch die Nase ein und etwas länger aus. Lass Schultern und Kiefer weich werden."},
+    {name:"5–7 Atmung",style:"deep-calm",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",text:"Diese Variante bringt noch etwas mehr Ruhe in deinen Atemrhythmus.",reason:"Gut, wenn du eine klar spürbare Beruhigung suchst.",script:"Atme ruhig durch die Nase ein und weich länger aus. Ohne Druck."},
+    {name:"Physiologischer Seufzer",style:"sigh",category:"calm",subtle:false,officeSafe:false,science:"physioSigh",text:"Diese Übung kann bei akutem Druck kurzfristig entlasten.",reason:"Hilfreich bei plötzlich hoher Anspannung.",script:"Einmal einatmen, einen kleinen zweiten Einatemzug ergänzen und dann langsam ausatmen."}
   ],
   reset:[
-    {name:"3 ruhige Atemzüge",style:"calm-short",category:"reset",subtle:true,officeSafe:true,science:"slowExhale",duration:"30–45 Sekunden",bestUse:"Zwischen Aufgaben oder nach einem Call",intensity:"Sehr sanft",text:"Eine kurze, schlichte Übung für einen kleinen Neustart.",reason:"Sie ist schnell und unkompliziert.",script:"Nimm drei ruhige Atemzüge. Mit jeder Ausatmung darf etwas Spannung abfließen."},
-    {name:"Atem beobachten",style:"observe",category:"awareness",subtle:true,officeSafe:true,science:"observe",duration:"30–60 Sekunden",bestUse:"Wenn du nichts steuern möchtest",intensity:"Sehr sanft",text:"Diese Übung holt die Aufmerksamkeit zurück in den Körper.",reason:"Gut, wenn du erst einmal nur ankommen willst.",script:"Beobachte deinen Atem für 30 bis 60 Sekunden, ohne etwas zu verändern."},
-    {name:"Walking breath",style:"walking",category:"movement",subtle:false,officeSafe:false,science:"movement",duration:"1–3 Minuten",bestUse:"In einer kurzen Bewegungspause",intensity:"Sanft",text:"Diese Übung verbindet Gehen mit einem ruhigen Atemrhythmus.",reason:"Hilfreich, wenn Sitzen gerade nicht regulierend wirkt.",script:"Gehe langsam. Atme über wenige Schritte ein und über etwas mehr Schritte aus."}
+    {name:"3 ruhige Atemzüge",style:"calm-short",category:"reset",subtle:true,officeSafe:true,science:"slowExhale",text:"Eine kurze, schlichte Übung für einen kleinen Neustart.",reason:"Sie ist schnell und unkompliziert.",script:"Nimm drei ruhige Atemzüge. Mit jeder Ausatmung darf etwas Spannung abfließen."},
+    {name:"Atem beobachten",style:"observe",category:"awareness",subtle:true,officeSafe:true,science:"observe",text:"Diese Übung holt die Aufmerksamkeit zurück in den Körper.",reason:"Gut, wenn du erst einmal nur ankommen willst.",script:"Beobachte deinen Atem für 30 bis 60 Sekunden, ohne etwas zu verändern."},
+    {name:"Walking breath",style:"walking",category:"movement",subtle:false,officeSafe:false,science:"movement",text:"Diese Übung verbindet Gehen mit einem ruhigen Atemrhythmus.",reason:"Hilfreich, wenn Sitzen gerade nicht regulierend wirkt.",script:"Gehe langsam. Atme über wenige Schritte ein und über etwas mehr Schritte aus."}
   ],
   "meeting-start":[
-    {name:"Meeting-Ankommen",style:"meeting-calm",category:"focus",subtle:true,officeSafe:true,science:"slowExhale",duration:"45–90 Sekunden",bestUse:"Direkt vor dem Meeting",intensity:"Sanft",text:"Eine leise, unauffällige Atemübung vor dem Gespräch.",reason:"Vor Meetings funktionieren diskrete Rhythmen oft am besten.",script:"Atme ruhig ein und etwas länger aus. Die Ausatmung bleibt leise und weich."},
-    {name:"Kohärente Atmung",style:"coherent",category:"focus",subtle:true,officeSafe:true,science:"coherent",duration:"1–2 Minuten",bestUse:"Vor Gesprächen oder beim Ankommen",intensity:"Sanft",text:"Diese Übung schafft einen stabilen Rhythmus für Präsenz und Fokus.",reason:"Gut, wenn du ruhig und klar in ein Gespräch gehen willst.",script:"Atme gleichmäßig ein und aus. Bleibe aufrecht und entspannt."},
-    {name:"Finger Tracing",style:"finger",category:"grounding",subtle:true,officeSafe:true,science:"movement",duration:"1 Minute",bestUse:"Wenn du einen zusätzlichen Fokusanker brauchst",intensity:"Sanft",text:"Kleine Handbewegung plus Atemfokus für mehr Sammlung.",reason:"Die feine Bewegung gibt dem Geist einen Anker.",script:"Fahre mit einem Finger die andere Hand entlang – hoch beim Einatmen, runter beim Ausatmen."}
+    {name:"Meeting-Ankommen",style:"meeting-calm",category:"focus",subtle:true,officeSafe:true,science:"slowExhale",text:"Eine leise, unauffällige Atemübung vor dem Gespräch.",reason:"Vor Meetings funktionieren diskrete Rhythmen oft am besten.",script:"Atme ruhig ein und etwas länger aus. Die Ausatmung bleibt leise und weich."},
+    {name:"Kohärente Atmung",style:"coherent",category:"focus",subtle:true,officeSafe:true,science:"coherent",text:"Diese Übung schafft einen stabilen Rhythmus für Präsenz und Fokus.",reason:"Gut, wenn du ruhig und klar in ein Gespräch gehen willst.",script:"Atme gleichmäßig ein und aus. Bleibe aufrecht und entspannt."},
+    {name:"Finger Tracing",style:"finger",category:"grounding",subtle:true,officeSafe:true,science:"movement",text:"Kleine Handbewegung plus Atemfokus für mehr Sammlung.",reason:"Die feine Bewegung gibt dem Geist einen Anker.",script:"Fahre mit einem Finger die andere Hand entlang – hoch beim Einatmen, runter beim Ausatmen."}
   ],
   "meeting-end":[
-    {name:"Calm close",style:"calm",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",duration:"45–90 Sekunden",bestUse:"Direkt nach einem Termin",intensity:"Sanft",text:"Eine Übung, um nach einem Termin bewusst loszulassen.",reason:"Hilfreich für einen klareren Übergang.",script:"Atme normal ein und etwas länger aus. Nutze drei bis fünf ruhige Atemzüge als Abschluss."},
-    {name:"3 Ausatemzüge",style:"calm-short",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",duration:"30 Sekunden",bestUse:"Wenn gleich der nächste Termin folgt",intensity:"Sehr sanft",text:"Kurz, diskret und wirksam nach intensiven Gesprächen.",reason:"Gut bei engem Takt.",script:"Atme drei Mal ruhig ein und etwas länger aus."}
+    {name:"Calm close",style:"calm",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",text:"Eine Übung, um nach einem Termin bewusst loszulassen.",reason:"Hilfreich für einen klareren Übergang.",script:"Atme normal ein und etwas länger aus. Nutze drei bis fünf ruhige Atemzüge als Abschluss."},
+    {name:"3 Ausatemzüge",style:"calm-short",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",text:"Kurz, diskret und wirksam nach intensiven Gesprächen.",reason:"Gut bei engem Takt.",script:"Atme drei Mal ruhig ein und etwas länger aus."}
   ],
   focus:[
-    {name:"Kohärente Atmung",style:"coherent",category:"focus",subtle:true,officeSafe:true,science:"coherent",duration:"1–3 Minuten",bestUse:"Beim Start einer Fokusphase",intensity:"Sanft",text:"Diese Übung unterstützt ruhige Wachheit und mentale Stabilität.",reason:"Ein ausgeglichener Rhythmus hilft oft mehr als zu viel Druck.",script:"Atme gleichmäßig ein und aus. Ruhig, leise und ohne Druck."},
-    {name:"Klarer Rhythmus",style:"balance",category:"focus",subtle:true,officeSafe:true,science:"coherent",duration:"1–2 Minuten",bestUse:"Wenn du dich sammeln willst",intensity:"Sanft",text:"Eine strukturierte Atemübung für mehr mentale Ordnung.",reason:"Gut, wenn du dich sortieren möchtest.",script:"Atme in einem gleichmäßigen Rhythmus und lass den Atem weich bleiben."},
-    {name:"Finger Tracing",style:"finger",category:"grounding",subtle:true,officeSafe:true,science:"movement",duration:"1 Minute",bestUse:"Bei zerstreuter Aufmerksamkeit",intensity:"Sanft",text:"Atem plus kleine Bewegung als Aufmerksamkeitsanker.",reason:"Besonders hilfreich bei einem vollen Kopf.",script:"Beim Hochstreichen einatmen, beim Runterstreichen ausatmen."}
+    {name:"Kohärente Atmung",style:"coherent",category:"focus",subtle:true,officeSafe:true,science:"coherent",text:"Diese Übung unterstützt ruhige Wachheit und mentale Stabilität.",reason:"Ein ausgeglichener Rhythmus hilft oft mehr als zu viel Druck.",script:"Atme gleichmäßig ein und aus. Ruhig, leise und ohne Druck."},
+    {name:"Klarer Rhythmus",style:"balance",category:"focus",subtle:true,officeSafe:true,science:"coherent",text:"Eine strukturierte Atemübung für mehr mentale Ordnung.",reason:"Gut, wenn du dich sortieren möchtest.",script:"Atme in einem gleichmäßigen Rhythmus und lass den Atem weich bleiben."},
+    {name:"Finger Tracing",style:"finger",category:"grounding",subtle:true,officeSafe:true,science:"movement",text:"Atem plus kleine Bewegung als Aufmerksamkeitsanker.",reason:"Besonders hilfreich bei einem vollen Kopf.",script:"Beim Hochstreichen einatmen, beim Runterstreichen ausatmen."}
   ],
   energy:[
-    {name:"Aktivierende Nasenatmung",style:"energy",category:"energy",subtle:true,officeSafe:true,science:"coherent",duration:"45–90 Sekunden",bestUse:"Bei einem kleinen Energietief",intensity:"Mittel",text:"Eine kontrollierte, etwas präsentere Nasenatmung für neue Wachheit.",reason:"Gut, wenn du einen kurzen Energieimpuls suchst.",script:"Atme etwas aktiver, aber weiter ruhig durch die Nase. Bleibe aufrecht."},
-    {name:"Reach & breathe",style:"reach",category:"energy",subtle:false,officeSafe:false,science:"movement",duration:"1–2 Minuten",bestUse:"Wenn du dich bewegen kannst",intensity:"Mittel",text:"Eine aktivierende Übung mit Armbewegung und Rhythmus.",reason:"Gut, wenn du körperlich wacher werden möchtest.",script:"Atme ein, während du die Arme hebst. Atme aus, während du sie wieder senkst."},
-    {name:"Calm energy",style:"balance",category:"focus",subtle:true,officeSafe:true,science:"coherent",duration:"1–2 Minuten",bestUse:"Wenn du Energie ohne Hektik suchst",intensity:"Sanft bis mittel",text:"Mehr Klarheit ohne Überstimulation.",reason:"Praktisch, wenn du Energie und Ruhe zugleich brauchst.",script:"Atme gleichmäßig und etwas präsenter, aber nicht hektisch."}
+    {name:"Aktivierende Nasenatmung",style:"energy",category:"energy",subtle:true,officeSafe:true,science:"coherent",text:"Eine kontrollierte, etwas präsentere Nasenatmung für neue Wachheit.",reason:"Gut, wenn du einen kurzen Energieimpuls suchst.",script:"Atme etwas aktiver, aber weiter ruhig durch die Nase. Bleibe aufrecht."},
+    {name:"Reach & breathe",style:"reach",category:"energy",subtle:false,officeSafe:false,science:"movement",text:"Eine aktivierende Übung mit Armbewegung und Rhythmus.",reason:"Gut, wenn du körperlich wacher werden möchtest.",script:"Atme ein, während du die Arme hebst. Atme aus, während du sie wieder senkst."},
+    {name:"Calm energy",style:"balance",category:"focus",subtle:true,officeSafe:true,science:"coherent",text:"Mehr Klarheit ohne Überstimulation.",reason:"Praktisch, wenn du Energie und Ruhe zugleich brauchst.",script:"Atme gleichmäßig und etwas präsenter, aber nicht hektisch."}
   ],
   presentation:[
-    {name:"Presentation reset",style:"calm",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",duration:"1–2 Minuten",bestUse:"Kurz vor dem Sprechen",intensity:"Sanft",text:"Hilft, Nervosität zu senken, ohne dich schläfrig zu machen.",reason:"Vor Auftritten ist ruhige Regulierung oft hilfreich.",script:"Atme ruhig ein und länger aus. Lass Kiefer, Bauch und Schultern weich werden."},
-    {name:"Steady presence",style:"coherent",category:"focus",subtle:true,officeSafe:true,science:"coherent",duration:"1–2 Minuten",bestUse:"Für Ruhe und Präsenz",intensity:"Sanft",text:"Ein klarer Rhythmus für Ruhe und Präsenz.",reason:"Gut, wenn du geerdet und wach sein willst.",script:"Atme gleichmäßig ein und aus und richte dich innerlich auf."},
-    {name:"Physiologischer Seufzer",style:"sigh",category:"calm",subtle:false,officeSafe:false,science:"physioSigh",duration:"1 Minute",bestUse:"Bei akuter Nervositätsspitze",intensity:"Kurz und deutlich",text:"Kann eine akute Nervositätsspitze kurz entschärfen.",reason:"Eher für den unmittelbaren Moment.",script:"Ein doppelter Einatemzug, dann eine lange weiche Ausatmung."}
+    {name:"Presentation reset",style:"calm",category:"calm",subtle:true,officeSafe:true,science:"slowExhale",text:"Hilft, Nervosität zu senken, ohne dich schläfrig zu machen.",reason:"Vor Auftritten ist ruhige Regulierung oft hilfreich.",script:"Atme ruhig ein und länger aus. Lass Kiefer, Bauch und Schultern weich werden."},
+    {name:"Steady presence",style:"coherent",category:"focus",subtle:true,officeSafe:true,science:"coherent",text:"Ein klarer Rhythmus für Ruhe und Präsenz.",reason:"Gut, wenn du geerdet und wach sein willst.",script:"Atme gleichmäßig ein und aus und richte dich innerlich auf."},
+    {name:"Physiologischer Seufzer",style:"sigh",category:"calm",subtle:false,officeSafe:false,science:"physioSigh",text:"Kann eine akute Nervositätsspitze kurz entschärfen.",reason:"Eher für den unmittelbaren Moment.",script:"Ein doppelter Einatemzug, dann eine lange weiche Ausatmung."}
   ],
   call:[
-    {name:"Call reset",style:"calm-short",category:"reset",subtle:true,officeSafe:true,science:"slowExhale",duration:"30–60 Sekunden",bestUse:"Zwischen zwei Gesprächen",intensity:"Sehr sanft",text:"Eine kleine Zwischen-Übung, um sauber in den nächsten Call zu wechseln.",reason:"Ideal bei engem Takt.",script:"Atme drei bis fünf Mal ruhig ein und etwas länger aus."},
-    {name:"Atem beobachten",style:"observe",category:"awareness",subtle:true,officeSafe:true,science:"observe",duration:"30–60 Sekunden",bestUse:"Nach vielen Reizen",intensity:"Sehr sanft",text:"Für einen stillen Reset ohne zusätzliche Steuerung.",reason:"Gut nach viel Input.",script:"Beobachte den Atem für einen Moment und lass ihn von selbst kommen und gehen."}
+    {name:"Call reset",style:"calm-short",category:"reset",subtle:true,officeSafe:true,science:"slowExhale",text:"Eine kleine Zwischen-Übung, um sauber in den nächsten Call zu wechseln.",reason:"Ideal bei engem Takt.",script:"Atme drei bis fünf Mal ruhig ein und etwas länger aus."},
+    {name:"Atem beobachten",style:"observe",category:"awareness",subtle:true,officeSafe:true,science:"observe",text:"Für einen stillen Reset ohne zusätzliche Steuerung.",reason:"Gut nach viel Input.",script:"Beobachte den Atem für einen Moment und lass ihn von selbst kommen und gehen."}
   ],
   overload:[
-    {name:"Atem beobachten",style:"observe",category:"awareness",subtle:true,officeSafe:true,science:"observe",duration:"30–60 Sekunden",bestUse:"Wenn gerade schon viel los ist",intensity:"Sehr sanft",text:"Weniger tun, mehr wahrnehmen – gut bei mentaler Überlastung.",reason:"Wenn ohnehin viel los ist, hilft oft etwas Einfaches am meisten.",script:"Beobachte deinen Atem 30 bis 60 Sekunden lang."},
-    {name:"Finger Tracing",style:"finger",category:"grounding",subtle:true,officeSafe:true,science:"movement",duration:"1 Minute",bestUse:"Wenn dein Kopf zu viele offene Tabs hat",intensity:"Sanft",text:"Berührung, Rhythmus und Atem bündeln die Aufmerksamkeit.",reason:"Gut, wenn der Kopf zu voll wirkt.",script:"Streiche langsam Finger für Finger entlang und verbinde es mit Ein- und Ausatmung."},
-    {name:"3 ruhige Atemzüge",style:"calm-short",category:"reset",subtle:true,officeSafe:true,science:"slowExhale",duration:"30 Sekunden",bestUse:"Wenn du einen schnellen Anker brauchst",intensity:"Sehr sanft",text:"Ein kleiner Anker ohne viel Aufwand.",reason:"Schnell und unkompliziert.",script:"Drei ruhige Atemzüge, mit etwas längerer Ausatmung."}
+    {name:"Atem beobachten",style:"observe",category:"awareness",subtle:true,officeSafe:true,science:"observe",text:"Weniger tun, mehr wahrnehmen – gut bei mentaler Überlastung.",reason:"Wenn ohnehin viel los ist, hilft oft etwas Einfaches am meisten.",script:"Beobachte deinen Atem 30 bis 60 Sekunden lang."},
+    {name:"Finger Tracing",style:"finger",category:"grounding",subtle:true,officeSafe:true,science:"movement",text:"Berührung, Rhythmus und Atem bündeln die Aufmerksamkeit.",reason:"Gut, wenn der Kopf zu voll wirkt.",script:"Streiche langsam Finger für Finger entlang und verbinde es mit Ein- und Ausatmung."},
+    {name:"3 ruhige Atemzüge",style:"calm-short",category:"reset",subtle:true,officeSafe:true,science:"slowExhale",text:"Ein kleiner Anker ohne viel Aufwand.",reason:"Schnell und unkompliziert.",script:"Drei ruhige Atemzüge, mit etwas längerer Ausatmung."}
   ],
   sleep:[
-    {name:"Sleep exhale",style:"sleep",category:"sleep",subtle:true,officeSafe:true,allowPause:true,science:"slowExhale",duration:"2–4 Minuten",bestUse:"Im Bett oder abends im Sitzen",intensity:"Sanft",text:"Eine weiche Abendübung mit längerer Ausatmung.",reason:"Für Schlaf passt oft ein sanfter, verlangsamter Rhythmus.",script:"Ruhig einatmen und deutlich länger ausatmen. Nur wenn es angenehm ist, darf nach der Ausatmung ein kleiner stiller Moment entstehen."},
-    {name:"4–6 Abendatmung",style:"sleep-soft",category:"sleep",subtle:true,officeSafe:true,allowPause:false,science:"slowExhale",duration:"2–3 Minuten",bestUse:"An sensiblen oder unruhigen Tagen",intensity:"Sehr sanft",text:"Eine mildere Abendvariante ohne lange Atemhaltephasen.",reason:"Gut, wenn du es abends besonders weich möchtest.",script:"Atme weich durch die Nase ein und länger aus. Kein Zwang, keine Leistung."},
-    {name:"Soft breath awareness",style:"observe",category:"sleep",subtle:true,officeSafe:true,science:"observe",duration:"2 Minuten",bestUse:"Wenn du nichts mehr steuern willst",intensity:"Sehr sanft",text:"Wenn du abends nichts mehr steuern möchtest.",reason:"Entlastend, wenn aktive Technik Druck macht.",script:"Lege eine Hand auf Brust oder Bauch und beobachte deinen Atem, ohne ihn zu verändern."}
+    {name:"Sleep exhale",style:"sleep",category:"sleep",subtle:true,officeSafe:true,allowPause:true,science:"slowExhale",text:"Eine weiche Abendübung mit längerer Ausatmung.",reason:"Für Schlaf passt oft ein sanfter, verlangsamter Rhythmus.",script:"Ruhig einatmen und deutlich länger ausatmen. Nur wenn es angenehm ist, darf nach der Ausatmung ein kleiner stiller Moment entstehen."},
+    {name:"4–6 Abendatmung",style:"sleep-soft",category:"sleep",subtle:true,officeSafe:true,allowPause:false,science:"slowExhale",text:"Eine mildere Abendvariante ohne lange Atemhaltephasen.",reason:"Gut, wenn du es abends besonders weich möchtest.",script:"Atme weich durch die Nase ein und länger aus. Kein Zwang, keine Leistung."},
+    {name:"Soft breath awareness",style:"observe",category:"sleep",subtle:true,officeSafe:true,science:"observe",text:"Wenn du abends nichts mehr steuern möchtest.",reason:"Entlastend, wenn aktive Technik Druck macht.",script:"Lege eine Hand auf Brust oder Bauch und beobachte deinen Atem, ohne ihn zu verändern."}
   ],
   thoughts:[
-    {name:"Raum durch Ausatmung",style:"thoughts",category:"calm",subtle:true,officeSafe:true,allowPause:true,science:"slowExhale",duration:"1–3 Minuten",bestUse:"Bei Grübeln oder innerem Druck",intensity:"Sanft",text:"Hilft, Gedankendruck zu verringern und etwas mehr inneren Raum zu spüren.",reason:"Eine längere Ausatmung ist oft einfacher als komplizierte Muster.",script:"Atme ruhig ein und länger aus. Stell dir vor, mit jeder Ausatmung wird es innen etwas weiter."},
-    {name:"Atem zählen",style:"counting",category:"focus",subtle:true,officeSafe:true,science:"observe",duration:"1–2 Minuten",bestUse:"Bei kreisenden Gedanken",intensity:"Sanft",text:"Gibt dem Geist eine kleine, klare Aufgabe.",reason:"Hilfreich bei Gedankenkreisen.",script:"Zähle die Ausatmungen von 1 bis 10 und beginne dann wieder bei 1."},
-    {name:"Finger Tracing",style:"finger",category:"grounding",subtle:true,officeSafe:true,science:"movement",duration:"1 Minute",bestUse:"Wenn du einen körperlichen Anker brauchst",intensity:"Sanft",text:"Körperlicher Anker für einen überaktiven Kopf.",reason:"Die kleine Bewegung hilft, Aufmerksamkeit zu bündeln.",script:"Finger für Finger hoch und runter streichen, passend zu Ein- und Ausatmung."}
+    {name:"Raum durch Ausatmung",style:"thoughts",category:"calm",subtle:true,officeSafe:true,allowPause:true,science:"slowExhale",text:"Hilft, Gedankendruck zu verringern und etwas mehr inneren Raum zu spüren.",reason:"Eine längere Ausatmung ist oft einfacher als komplizierte Muster.",script:"Atme ruhig ein und länger aus. Stell dir vor, mit jeder Ausatmung wird es innen etwas weiter."},
+    {name:"Atem zählen",style:"counting",category:"focus",subtle:true,officeSafe:true,science:"observe",text:"Gibt dem Geist eine kleine, klare Aufgabe.",reason:"Hilfreich bei Gedankenkreisen.",script:"Zähle die Ausatmungen von 1 bis 10 und beginne dann wieder bei 1."},
+    {name:"Finger Tracing",style:"finger",category:"grounding",subtle:true,officeSafe:true,science:"movement",text:"Körperlicher Anker für einen überaktiven Kopf.",reason:"Die kleine Bewegung hilft, Aufmerksamkeit zu bündeln.",script:"Finger für Finger hoch und runter streichen, passend zu Ein- und Ausatmung."}
   ]
 };
 
@@ -672,22 +662,9 @@ function randomItem(arr){
   return arr[Math.floor(Math.random()*arr.length)];
 }
 
-function factPoolForScience(scienceKey){
-  if(scienceKey==="slowExhale") return facts.filter(f=>!["rhythm","attention"].includes(f.type));
-  if(scienceKey==="coherent") return facts.filter(f=>!["rhythm"].includes(f.type));
-  if(scienceKey==="observe") return facts.filter(f=>!["attention"].includes(f.type));
-  if(scienceKey==="movement") return facts.filter(f=>!["daily"].includes(f.type));
-  return facts;
-}
-
 function pickScienceText(scienceKey){
   const pool=scienceMap[scienceKey] || ["Diese Übung kann helfen, den Atem ruhiger und angenehmer werden zu lassen."];
   return randomItem(pool);
-}
-
-function pickFactText(scienceKey){
-  const pool=factPoolForScience(scienceKey);
-  return randomItem(pool).text;
 }
 
 function timingFor(style,cp,safety,allowPause){
@@ -868,11 +845,7 @@ function renderTechnique(tech){
   patternText.textContent=tech.pattern;
   scriptText.textContent=tech.script;
   scienceText.textContent=pickScienceText(tech.science);
-  factText.textContent=pickFactText(tech.science);
   officeNote.textContent=tech.office || "";
-  durationText.textContent=tech.duration || "1–2 Minuten";
-  bestUseText.textContent=tech.bestUse || "Ruhig und ohne Druck";
-  intensityText.textContent=tech.intensity || "Sanft";
   resultEl.classList.add("show");
   startBreathingAnimation(tech.sequence);
 }
