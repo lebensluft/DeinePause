@@ -20,6 +20,7 @@
   --line:#cfdbd4;
   --soft:#f5f8f6;
   --shadow:0 10px 28px rgba(23,61,51,.10);
+  --shadow-strong:0 16px 38px rgba(23,61,51,.16);
   --radius:16px;
   --max:1140px;
 }
@@ -186,7 +187,7 @@ summary::-webkit-details-marker{display:none;}
   padding:12px 16px 16px;
   border-top:1px solid var(--line);
 }
-.help,.inline-note,.footer-note,.result-reason,.science-copy,.office-note,.cta-copy,.legal{
+.help,.inline-note,.result-reason,.science-copy,.office-note,.cta-copy,.legal,.cta-label{
   color:var(--muted);
 }
 .help{margin:0 0 12px;}
@@ -208,31 +209,26 @@ button, .link-btn{
   font-size:1rem;
   font-weight:700;
   cursor:pointer;
-  transition:transform .15s ease,opacity .2s ease,background .2s ease;
+  transition:transform .15s ease,opacity .2s ease,background .2s ease, box-shadow .2s ease;
   text-decoration:none;
   display:inline-flex;
   align-items:center;
   justify-content:center;
 }
-button:hover, .link-btn:hover{transform:translateY(-1px);}
+button:hover, .link-btn:hover{
+  transform:translateY(-1px);
+}
 .btn-primary{
   background:var(--forest-900);
   color:var(--white);
 }
 .btn-primary:hover{background:var(--forest-700);}
-.btn-secondary, .link-btn.secondary{
+.btn-secondary{
   background:var(--white);
   color:var(--forest-900);
   border:1px solid var(--forest-700);
 }
-.btn-secondary:hover, .link-btn.secondary:hover{background:var(--sage-100);}
-.link-btn.primary{
-  background:var(--forest-900);
-  color:var(--white);
-}
-.link-btn.primary:hover{
-  background:var(--forest-700);
-}
+.btn-secondary:hover{background:var(--sage-100);}
 .result{
   display:none;
   margin-top:20px;
@@ -339,23 +335,58 @@ button:hover, .link-btn:hover{transform:translateY(-1px);}
 }
 .cta-block{
   margin-top:18px;
-  padding:16px;
-  border-radius:14px;
-  border:1px solid var(--line);
-  background:linear-gradient(180deg,#fafcfb 0%, var(--soft) 100%);
+  padding:18px;
+  border-radius:16px;
+  border:1px solid var(--sage-300);
+  background:linear-gradient(180deg,#f8fbf9 0%, #eef4ef 100%);
+  box-shadow:var(--shadow);
 }
 .cta-copy{
-  margin:0 0 12px;
-  font-size:.96rem;
+  margin:0 0 14px;
+  font-size:.98rem;
 }
-.cta-buttons{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
+.cta-group{
+  display:grid;
+  grid-template-columns:1.05fr 1fr 1fr;
+  gap:12px;
 }
-.footer-note{
-  margin-top:12px;
-  font-size:.86rem;
+.cta-card{
+  background:var(--white);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 8px 20px rgba(23,61,51,.08);
+}
+.cta-label{
+  font-size:.78rem;
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.link-btn{
+  width:100%;
+  min-height:56px;
+  text-align:center;
+  line-height:1.3;
+  box-shadow:var(--shadow);
+}
+.link-btn.website{
+  background:var(--forest-900);
+  color:var(--white);
+  box-shadow:var(--shadow-strong);
+}
+.link-btn.website:hover{
+  background:var(--forest-700);
+}
+.link-btn.booking{
+  background:var(--white);
+  color:var(--forest-900);
+  border:1px solid var(--forest-700);
+}
+.link-btn.booking:hover{
+  background:var(--sage-100);
+  box-shadow:var(--shadow-strong);
 }
 .legal{
   margin-top:24px;
@@ -369,28 +400,15 @@ button:hover, .link-btn:hover{transform:translateY(-1px);}
 .legal a:hover{
   text-decoration:underline;
 }
-.github-note{
-  margin-top:18px;
-  padding:14px 16px;
-  border-radius:12px;
-  background:#fafcfb;
-  border:1px dashed var(--line);
-  color:var(--muted);
-  font-size:.92rem;
-}
-code{
-  background:#edf4ef;
-  color:var(--forest-900);
-  padding:2px 6px;
-  border-radius:6px;
-  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-}
 @media(max-width:980px){
   .option-grid.goal-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
+  .cta-group{grid-template-columns:1fr;}
 }
 @media(max-width:760px){
   .wrap{padding:16px 14px 32px;}
-  .option-grid,.option-grid.three,.option-grid.goal-grid,.cta-buttons{grid-template-columns:1fr;}
+  .option-grid,.option-grid.three,.option-grid.goal-grid{
+    grid-template-columns:1fr;
+  }
   .card{padding:18px;}
   .logo-slot{
     width:64px;
@@ -402,9 +420,6 @@ code{
     height:132px;
   }
   .circle-wrap{min-height:200px;}
-  .cta-buttons{
-    display:grid;
-  }
 }
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto;}
@@ -516,32 +531,30 @@ code{
           </div>
         </div>
 
-        <div class="actions" style="margin-top:16px;">
-          <button class="btn-secondary" id="altBtn">Alternative zeigen</button>
-          <button class="btn-secondary" id="gentleBtn">Sanftere Variante</button>
-        </div>
-
         <div class="cta-block">
           <p class="cta-copy">Ich unterstütze dich, dein Team oder dein Unternehmen dabei, Breathwork fest im Alltag zu verankern. [web:2]</p>
-          <div class="cta-buttons">
-            <a class="link-btn primary" href="https://www.lebensluft.net/" target="_blank" rel="noopener noreferrer">Zu Lebensluft</a>
-            <a class="link-btn secondary" href="https://calendly.com/lebensluft-breathwork/erstgesprach-fur-unternehmen-clone" target="_blank" rel="noopener noreferrer">Für Privatpersonen: Unverbindliches Beratungsgespräch buchen</a>
-            <a class="link-btn secondary" href="https://calendly.com/lebensluft-breathwork/oprm-einordnung-clone" target="_blank" rel="noopener noreferrer">Für Unternehmen: Unverbindliches Beratungsgespräch buchen</a>
-          </div>
-        </div>
 
-        <div class="footer-note">Atme immer weich und ohne Druck. Wenn etwas unangenehm wird, kehre zu deinem natürlichen Atem zurück.</div>
+<div class="cta-group">
+  <div class="cta-card">
+    <div class="cta-label">Website</div>
+    <a class="link-btn website" href="https://www.lebensluft.net/" target="_blank" rel="noopener noreferrer">
+      Mehr über Lebensluft
+    </a>
+  </div>
 
-        <div class="github-note">
-          <strong>Logo in GitHub einfügen:</strong> Lege im selben Repository einen Ordner <code>assets</code> an und speichere dein Logo als <code>lebensluft-logo.png</code>. Der Pfad in dieser Datei ist bereits auf <code>./assets/lebensluft-logo.png</code> gesetzt. [web:60]
-        </div>
-      </div>
-    </div>
+  <div class="cta-card">
+    <div class="cta-label">Terminbuchung Privat</div>
+    <a class="link-btn booking" href="https://calendly.com/lebensluft-breathwork/unverbindliches-erstgesprach-buchen" target="_blank" rel="noopener noreferrer">
+      Für Privatpersonen: Unverbindliches Erstgespräch buchen
+    </a>
+  </div>
 
-    <div class="legal">
-      <a href="https://www.lebensluft.net/impressum" target="_blank" rel="noopener noreferrer">Impressum</a> [web:69]
-    </div>
-  </section>
+  <div class="cta-card">
+    <div class="cta-label">Terminbuchung Unternehmen</div>
+    <a class="link-btn booking" href="https://calendly.com/lebensluft-breathwork/unverbindliches-erstgesprach-unternehmen" target="_blank" rel="noopener noreferrer">
+      Für Unternehmen: Unverbindliches Erstgespräch buchen
+    </a>
+  </div>
 </div>
 
 <script>
@@ -558,7 +571,6 @@ const circleText=document.getElementById("circleText");
 const breathCircle=document.getElementById("breathCircle");
 const findBtn=document.getElementById("findBtn");
 const altBtn=document.getElementById("altBtn");
-const gentleBtn=document.getElementById("gentleBtn");
 const brandLogo=document.getElementById("brandLogo");
 const logoPlaceholder=document.getElementById("logoPlaceholder");
 
@@ -910,11 +922,6 @@ altBtn.addEventListener("click",()=>{
     currentPair.push(currentPair.shift());
     renderTechnique(currentPair[0]);
   }
-});
-
-gentleBtn.addEventListener("click",()=>{
-  const gentleChoice=personalizeTechnique(techniques.reset[1]);
-  renderTechnique(gentleChoice);
 });
 </script>
 </body>
